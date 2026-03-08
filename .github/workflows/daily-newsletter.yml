@@ -1,0 +1,52 @@
+name: Daily Newsletter
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 23 * * *"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-send:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run newsletter engine
+        env:
+          BASE_URL: ${{ vars.BASE_URL }}
+          SITE_TITLE: Travel Pulse SEA
+          EDITION_TIMEZONE: Asia/Singapore
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: gpt-4.1-mini
+          EMAIL_PROVIDER: ${{ vars.EMAIL_PROVIDER }}
+          EMAIL_FROM: ${{ vars.EMAIL_FROM }}
+          EMAIL_TO: ${{ vars.EMAIL_TO }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+        run: node ./src/index.js
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
