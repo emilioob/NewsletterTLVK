@@ -11,17 +11,6 @@
 - Emails the daily brief and includes the full web-edition link.
 - Supports optional OpenAI enhancement for tighter executive summaries.
 
-## Why this framing fits Traveloka
-
-Traveloka's official public positioning describes the company as a leading Southeast Asia travel platform with strong focus across flights, accommodations, activities, and broader travel services. Public company pages and 2025 announcements also highlight:
-
-- Founded in Indonesia in 2012.
-- Operations across Southeast Asia plus Australia, with a 2025 Japan launch.
-- Roughly `140M+` app downloads and `40M+` monthly active users.
-- `250+` airline partners, `2.2M+` accommodations, and `90K+` activities.
-
-That makes route demand, travel disruption, supply shifts, regulation, and OTA competitor moves especially important for a strategy newsletter.
-
 ## Local usage
 
 1. Copy `.env.example` to `.env` and fill in the values.
